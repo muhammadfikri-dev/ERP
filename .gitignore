@@ -1,0 +1,23 @@
+# Environment & Local secrets
+.env
+sites/
+logs/
+backups/
+*.log
+*.sql
+*.sql.gz
+*.tar
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+env/
+
+# Node
+node_modules/
+
+# OS
+.DS_Store
+Thumbs.db

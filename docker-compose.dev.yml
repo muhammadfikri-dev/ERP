@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+ dev-bench:
+ image: frappe/erpnext:${ERPNEXT_VERSION:-v15.38.0}
+ restart: "no"
+ command:
+ - bench
+ - start
+ ports:
+ - "8000:8000"
+ - "9000:9000"
+ environment:
+ - DB_HOST=mariadb
+ - REDIS_CACHE=redis-cache:6379
+ - REDIS_QUEUE=redis-queue:6379
+ - REDIS_SOCKETIO=redis-socketio:6379
+ volumes:
+ - sites-vol:/home/frappe/frappe-bench/sites
+ - ./apps:/home/frappe/frappe-bench/apps
+ depends_on:
+ mariadb:
+ condition: service_healthy
+ redis-cache:
+ condition: service_started
+ redis-queue:
+ condition: service_started
+ redis-socketio:
+ condition: service_started
+
+ mariadb:
+ image: mariadb:10.6
+ command:
+ - --character-set-server=utf8mb4
+ - --collation-server=utf8mb4_unicode_ci
+ - --skip-character-set-client-handshake
+ environment:
+ - MYSQL_ROOT_PASSWORD=mariadb_root_secret_password
+ volumes:
+ - db-data:/var/lib/mysql
+ healthcheck:
+ test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pmariadb_root_secret_password"]
+ interval: 5s
+ timeout: 5s
+ retries: 10
+
+ redis-cache:
+ image: redis:alpine
+ redis-queue:
+ image: redis:alpine
+ redis-socketio:
+ image: redis:alpine
+
+volumes:
+ db-data:
+ sites-vol:
