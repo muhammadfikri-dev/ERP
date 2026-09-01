@@ -178,3 +178,9 @@ Aplikasi bawaan **`custom_core`** terletak di dalam folder `apps/custom_core/`. 
 
 Proyek ini didistribusikan di bawah lisensi open-source **MIT License**.
 Dikembangkan & Dikelola oleh **Muhammad Fikri**.
+
+---
+
+<p align="center">
+  Dibuat dengan ❤️ oleh <b>Muhammad Fikri Dev</b>
+</p>
